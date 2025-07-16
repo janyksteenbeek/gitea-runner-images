@@ -11,7 +11,7 @@ This repo contains a weekly GitHub Action that mirrors the following Gitea Docke
 
 ### Schedule
 
-This mirror runs every night at **02:00 UTC**.
+This mirror runs every week, at Monday night at **02:00 UTC**.
 
 ### Manual Trigger
 
