@@ -37,23 +37,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Mirror gitea/runner-images:ubuntu-latest
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
-          load: false
-          cache-from: type=registry,ref=gitea/runner-images:ubuntu-latest
-          file: /dev/null
-          build-args: |
-            SRC_IMAGE=gitea/runner-images:ubuntu-latest
+        run: |
+          docker pull gitea/runner-images:ubuntu-latest
+          docker tag gitea/runner-images:ubuntu-latest ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
+          docker push ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
 
       - name: Mirror gitea/act_runner:nightly-dind-rootless
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
-          load: false
-          cache-from: type=registry,ref=gitea/act_runner:nightly-dind-rootless
-          file: /dev/null
-          build-args: |
-            SRC_IMAGE=gitea/act_runner:nightly-dind-rootless
+        run: |
+          docker pull gitea/act_runner:nightly-dind-rootless
+          docker tag gitea/act_runner:nightly-dind-rootless ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
+          docker push ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
