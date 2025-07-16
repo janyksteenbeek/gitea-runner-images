@@ -21,13 +21,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Mirror gitea/runner-images:ubuntu-latest
-        uses: shrink/actions-docker-registry-sync@v3
+        uses: shrink/actions-docker-registry-sync@v4
         with:
           src: gitea/runner-images:ubuntu-latest
           dest: ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
 
       - name: Mirror gitea/act_runner:nightly-dind-rootless
-        uses: shrink/actions-docker-registry-sync@v3
+        uses: shrink/actions-docker-registry-sync@v4
         with:
           src: gitea/act_runner:nightly-dind-rootless
           dest: ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
