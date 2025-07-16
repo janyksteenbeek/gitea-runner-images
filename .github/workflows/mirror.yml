@@ -2,7 +2,7 @@ name: Mirror Gitea Docker Images
 
 on:
   schedule:
-    - cron: '0 2 * * *' # Every night at 02:00 UTC
+    - cron: '0 2 * * *'  # nightly @ 02:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,22 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (for multi-arch, optional)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -21,13 +37,23 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Mirror gitea/runner-images:ubuntu-latest
-        uses: shrink/actions-docker-registry-sync@v4
+        uses: docker/build-push-action@v4
         with:
-          src: gitea/runner-images:ubuntu-latest
-          dest: ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
+          push: true
+          tags: ghcr.io/janyksteenbeek/gitea-runner-images:runner-images-ubuntu-latest
+          load: false
+          cache-from: type=registry,ref=gitea/runner-images:ubuntu-latest
+          file: /dev/null
+          build-args: |
+            SRC_IMAGE=gitea/runner-images:ubuntu-latest
 
       - name: Mirror gitea/act_runner:nightly-dind-rootless
-        uses: shrink/actions-docker-registry-sync@v4
+        uses: docker/build-push-action@v4
         with:
-          src: gitea/act_runner:nightly-dind-rootless
-          dest: ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
+          push: true
+          tags: ghcr.io/janyksteenbeek/gitea-runner-images:act-runner-nightly-dind-rootless
+          load: false
+          cache-from: type=registry,ref=gitea/act_runner:nightly-dind-rootless
+          file: /dev/null
+          build-args: |
+            SRC_IMAGE=gitea/act_runner:nightly-dind-rootless
