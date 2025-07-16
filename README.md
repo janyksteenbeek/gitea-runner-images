@@ -1,6 +1,6 @@
 # gitea-runner-images mirror
 
-This repo contains a nightly GitHub Action that mirrors the following Gitea Docker images from Docker Hub to GitHub Container Registry (GHCR):
+This repo contains a weekly GitHub Action that mirrors the following Gitea Docker images from Docker Hub to GitHub Container Registry (GHCR):
 
 ### Mirrored Images
 

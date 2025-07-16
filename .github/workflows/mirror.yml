@@ -2,7 +2,7 @@ name: Mirror Gitea Docker Images
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # nightly @ 02:00 UTC
+    - cron: '0 2 * * 1'  # nightly @ 02:00 UTC
   workflow_dispatch:
 
 jobs:
